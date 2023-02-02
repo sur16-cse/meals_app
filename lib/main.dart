@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
           titleLarge: const TextStyle(
             fontSize: 20,
             fontFamily: 'RobotoCondensed',
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
+            color: Colors.white
           ),
         ), colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink).copyWith(secondary: Colors.amber)
       ),
