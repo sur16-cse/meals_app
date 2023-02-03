@@ -25,27 +25,50 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false,
   };
 
-  List<Meal>_availableMeals=DUMMY_MEALS;
+  List<Meal> _availableMeals = DUMMY_MEALS;
+   final List<Meal> _favoriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
-      _filters=filterData;
-      _availableMeals=DUMMY_MEALS.where((meal){
-        if(_filters['gluten']! && !meal.isGlutenFree) {
-          return false;
-        }
-        if(_filters['lactose']! && !meal.isLactoseFree) {
-          return false;
-        }
-        if(_filters['vegan']! && !meal.isVegan) {
-          return false;
-        }
-        if(_filters['vegetarian']! && !meal.isVegetarian) {
-          return false;
-        }
-        return true;
-      },).toList();
+      _filters = filterData;
+      _availableMeals = DUMMY_MEALS.where(
+        (meal) {
+          if (_filters['gluten']! && !meal.isGlutenFree) {
+            return false;
+          }
+          if (_filters['lactose']! && !meal.isLactoseFree) {
+            return false;
+          }
+          if (_filters['vegan']! && !meal.isVegan) {
+            return false;
+          }
+          if (_filters['vegetarian']! && !meal.isVegetarian) {
+            return false;
+          }
+          return true;
+        },
+      ).toList();
     });
+  }
+
+  void _toggleFavorite(String mealId) {
+    final existingIndex =
+        _favoriteMeals.indexWhere((meal) => meal.id == mealId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favoriteMeals.remove(existingIndex.toString());
+      });
+    } else {
+      setState(() {
+        _favoriteMeals.add(
+          DUMMY_MEALS.firstWhere((meal) => mealId == meal.id),
+        );
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id){
+    return _favoriteMeals.any((meal) => meal.id==id);
   }
 
   // This widget is the root of your application.
@@ -72,11 +95,12 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
             .copyWith(secondary: Colors.amber),
       ),
-      home: const TabsScreen(),
+      home: TabsScreen(_favoriteMeals),
       routes: {
-        CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(_availableMeals),
-        MealDetailScreen.routeName: (ctx) => const MealDetailScreen(),
-        FiltersScreen.routeName: (ctx) => FiltersScreen(_setFilters,_filters),
+        CategoryMealsScreen.routeName: (ctx) =>
+            CategoryMealsScreen(_availableMeals),
+        MealDetailScreen.routeName: (ctx) =>  MealDetailScreen(_toggleFavorite,_isMealFavorite),
+        FiltersScreen.routeName: (ctx) => FiltersScreen(_setFilters, _filters),
       },
     );
   }
