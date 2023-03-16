@@ -99,7 +99,7 @@ class MealDetailScreen extends StatelessWidget {
         children: [
           buildFloatingActionButton(
             mealId,
-            isFavorite(mealId)?Icons.favorite_border_rounded:Icons.star_border_outlined,
+            isFavorite(mealId)?Icons.star:Icons.star_border,
             () {toggleFavorite(mealId);},
           ),
           const SizedBox(

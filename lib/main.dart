@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         _favoriteMeals.indexWhere((meal) => meal.id == mealId);
     if (existingIndex >= 0) {
       setState(() {
-        _favoriteMeals.remove(existingIndex.toString());
+        _favoriteMeals.removeAt(existingIndex);
       });
     } else {
       setState(() {

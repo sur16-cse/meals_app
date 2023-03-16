@@ -17,6 +17,12 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
   late List<Meal> displayMeals;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     final routeArgs =
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
